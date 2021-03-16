@@ -148,4 +148,15 @@ class DesktopApplicationTest : GradlePluginTestBase() {
             }
         }
     }
+
+    @Test
+    fun testSuggestModules() {
+        with(testProject(TestProjects.jvm)) {
+            gradle(":suggestRuntimeModules").build().checks { check ->
+                check.taskOutcome(":suggestRuntimeModules", TaskOutcome.SUCCESS)
+                check.logContains("Suggested runtime modules to include:")
+                check.logContains("modules(\"java.instrument\", \"jdk.unsupported\")")
+            }
+        }
+    }
 }
